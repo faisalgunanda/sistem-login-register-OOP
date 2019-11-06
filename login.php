@@ -6,6 +6,10 @@ if ( Session::exists('username')) {
 	header('Location: profile.php');
 }
 
+if ( Session::exists('login')) {
+	echo Session::flash('login');
+}
+
 $errors = array();
 
 if ( Input::get('submit') ) {

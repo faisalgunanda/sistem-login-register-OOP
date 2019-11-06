@@ -35,6 +35,8 @@ if ( Input::get('submit') ) {
 				'username' => Input::get('username'),
 				'password' => password_hash(Input::get('password'), PASSWORD_DEFAULT)
 			));
+
+			Session::flash('profile', 'Selamat! Anda Berhasil Mendaftar');
 			Session::set('username', Input::get('username'));
 			header('Location: profile.php');
 		}else{
