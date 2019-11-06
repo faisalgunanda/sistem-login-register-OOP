@@ -21,11 +21,17 @@ if ( Input::get('submit') ) {
 
 	//3. Lolos Ujian
 	if ($validation->passed()) {
-		if($user->login_user(Input::get('username'), Input::get('password'))){
-			Session::set('username', Input::get('username'));
-			header('Location: profile.php');
+	
+		if ($user->cek_nama(Input::get('username'))) {
+			# 
+			if($user->login_user(Input::get('username'), Input::get('password'))){
+				Session::set('username', Input::get('username'));
+				header('Location: profile.php');
+			}else{
+				$errors[] = 'Login Gagal';
+			}
 		}else{
-			$errors[] = 'Login Gagal';
+			$errors[] = 'Username Belum Terdaftar!';
 		}
 
 	}else{
