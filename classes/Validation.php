@@ -27,16 +27,21 @@ class Validation
     					$this->addError("$item minimal $rule_value karakter");
     				}
     				break;
-    				case 'required':
-    				if(strlen(Input::get($item)) > $rule_value){
-    					$this->addError("$item maximal $rule_value karakter");
-    				}
-    				break;
-    				
-    				default:
-    				break;
-    			}
-    		}
+                    case 'max':
+                    if (strlen(Input::get($item)) > $rule_value) {
+                        $this->addError("$item maximal $rule_value karakter");
+                    }    
+                    break;
+                    case 'match':
+                    if(Input::get($item) != Input::get($rule_value) ){
+                       $this->addError(" Password Verify harus sama dengan $rule_value");
+                   }
+                   break;
+
+                   default:
+                   break;
+               }
+           }
     	}//end first foreach
 
     	if (empty($this->_errors)) {

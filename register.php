@@ -20,6 +20,10 @@ if ( Input::get('submit') ) {
 		'password' => array(
 			'required' => true,
 			'min'      => 3,
+		),
+		'password_verify' => array(
+			'required' => true,
+			'match' => 'password'
 		)
 	));
 
@@ -50,6 +54,9 @@ require_once 'templates/header.php';
 
 	<label>Password</label>
 	<input type="password" name="password"><br>
+
+	<label>Ulangi Password</label>
+	<input type="password" name="password_verify"><br>
 
 	<input type="submit" name="submit" value="Daftar Sekarang">
 
