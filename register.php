@@ -23,16 +23,19 @@ if ( Input::get('submit') ) {
 		)
 	));
 
-	if ($validation->passed()) {
-		$user->register_user(array(
-			'username' => Input::get('username'),
-			'password' => password_hash(Input::get('password'), PASSWORD_DEFAULT)
-		));
-
-		Session::set('username', Input::get('username'));
-		header('Location: profile.php');
+	if ($user->cek_nama(Input::get('username'))) {
+		$errors[] = 'Nama Sudah Terdaftar';
 	}else{
-		$errors = $validation->errors();
+		if ($validation->passed()) {
+			$user->register_user(array(
+				'username' => Input::get('username'),
+				'password' => password_hash(Input::get('password'), PASSWORD_DEFAULT)
+			));
+			Session::set('username', Input::get('username'));
+			header('Location: profile.php');
+		}else{
+			$errors = $validation->errors();
+		}
 	}
 }
 
@@ -51,13 +54,13 @@ require_once 'templates/header.php';
 	<input type="submit" name="submit" value="Daftar Sekarang">
 
 
-<?php if(!empty($errors)) { ?>
-	<div id="errors">
-		<?php foreach ($errors as $error) {?>
-			<li><?php echo $error; ?></li>
-		<?php } ?>
-	</div>
-<?php  } ?>
+	<?php if(!empty($errors)) { ?>
+		<div id="errors">
+			<?php foreach ($errors as $error) {?>
+				<li><?php echo $error; ?></li>
+			<?php } ?>
+		</div>
+	<?php  } ?>
 	
 </form>
 
