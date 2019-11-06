@@ -58,7 +58,7 @@ class Database
     public function get_info($table, $column, $value)
     {
         if (!is_int($value)) {
-            $value = "'" . $value . "'";
+            $value = "'". $value . "'";
              
              $query = "SELECT * FROM $table WHERE $column = $value";
              

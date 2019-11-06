@@ -6,7 +6,10 @@ $errors = array();
 
 if ( Input::get('submit') ) {
 
+	// 1. Memanggil Objek Validasi
 	$validation = new Validation();
+
+	//2. Metode Check
 	$validation = $validation->check(array(
 		'username' => array(
 			'required' => true,
@@ -15,13 +18,14 @@ if ( Input::get('submit') ) {
 			'required' => true,
 		)
 	));
-	die(Input::get('password'));
+
+	//3. Lolos Ujian
 	if ($validation->passed()) {
 		if($user->login_user(Input::get('username'), Input::get('password'))){
 			Session::set('username', Input::get('username'));
 			header('Location: profile.php');
 		}else{
-			echo 'Login Gagal';
+			$errors[] = 'Login Gagal';
 		}
 
 	}else{

@@ -23,9 +23,9 @@ class User
     }
 
     public function login_user($username, $password){
-        die($password);
-        $data = $this->_db->get_info('users', 'username', $username);
 
+        $data = $this->_db->get_info('users', 'username', $username);
+        
         if(password_verify($password, $data['password']) )
             return true;
         else return false;
