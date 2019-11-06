@@ -2,6 +2,10 @@
 
 require_once 'core/init.php';
 
+if ( Session::exists('username')) {
+	header('Location: profile.php');
+}
+
 $errors = array();
 
 if ( Input::get('submit') ) {
