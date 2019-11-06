@@ -3,7 +3,7 @@
 require_once 'core/init.php';
 
 if ( Session::exists('username')) {
-	header('Location: profile.php');
+	Redirect::to('profile');
 }
 
 $errors = array();
