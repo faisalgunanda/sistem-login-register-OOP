@@ -50,6 +50,12 @@ class User
         }
     }
 
+    public function is_loggedIn()
+    {
+        if (Session::exists('username') ) return true;
+            else return false;
+    }
+
 }
 
 

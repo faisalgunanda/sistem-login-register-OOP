@@ -2,7 +2,7 @@
 
 require_once 'core/init.php';
 
-if ( Session::exists('username')) {
+if ( $user->is_loggedIn()) {
 	Redirect::to('profile');
 }
 
