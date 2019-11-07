@@ -10,37 +10,40 @@ $errors = array();
 
 if ( Input::get('submit') ) {
 
-	$validation = new Validation();
-	$validation = $validation->check(array(
-		'username' => array(
-			'required' => true,
-			'min' 	   => 3,
-			'max'      => 50,
-		),
-		'password' => array(
-			'required' => true,
-			'min'      => 3,
-		),
-		'password_verify' => array(
-			'required' => true,
-			'match' => 'password'
-		)
-	));
+	if(Token::check(Input::get('token'))){
 
-	if ($user->cek_nama(Input::get('username'))) {
-		$errors[] = 'Nama Sudah Terdaftar';
-	}else{
-		if ($validation->passed()) {
-			$user->register_user(array(
-				'username' => Input::get('username'),
-				'password' => password_hash(Input::get('password'), PASSWORD_DEFAULT)
-			));
+		$validation = new Validation();
+		$validation = $validation->check(array(
+			'username' => array(
+				'required' => true,
+				'min' 	   => 3,
+				'max'      => 50,
+			),
+			'password' => array(
+				'required' => true,
+				'min'      => 3,
+			),
+			'password_verify' => array(
+				'required' => true,
+				'match' => 'password'
+			)
+		));
 
-			Session::flash('profile', 'Selamat! Anda Berhasil Mendaftar');
-			Session::set('username', Input::get('username'));
-			header('Location: profile.php');
+		if ($user->cek_nama(Input::get('username'))) {
+			$errors[] = 'Nama Sudah Terdaftar';
 		}else{
-			$errors = $validation->errors();
+			if ($validation->passed()) {
+				$user->register_user(array(
+					'username' => Input::get('username'),
+					'password' => password_hash(Input::get('password'), PASSWORD_DEFAULT)
+				));
+
+				Session::flash('profile', 'Selamat! Anda Berhasil Mendaftar');
+				Session::set('username', Input::get('username'));
+				header('Location: profile.php');
+			}else{
+				$errors = $validation->errors();
+			}
 		}
 	}
 }
@@ -59,6 +62,8 @@ require_once 'templates/header.php';
 
 	<label>Ulangi Password</label>
 	<input type="password" name="password_verify"><br>
+
+	<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 
 	<input type="submit" name="submit" value="Daftar Sekarang">
 
