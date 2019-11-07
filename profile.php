@@ -15,4 +15,7 @@ require_once 'templates/header.php';
 
 <h2>Hai <?php echo Session::get('username') ?> </h2>
 
+<?php if($user->is_admin(Session::get('username'))){ ?>
+	Fungsi Khusus admin
+<?php } ?>
 <?php require_once 'templates/footer.php' ?>
