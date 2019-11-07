@@ -14,36 +14,39 @@ $errors = array();
 
 if ( Input::get('submit') ) {
 
+	if (Token::check(Input::get('token'))){
+
 	// 1. Memanggil Objek Validasi
-	$validation = new Validation();
+		$validation = new Validation();
 
 	//2. Metode Check
-	$validation = $validation->check(array(
-		'username' => array(
-			'required' => true,
-		),
-		'password' => array(
-			'required' => true,
-		)
-	));
+		$validation = $validation->check(array(
+			'username' => array(
+				'required' => true,
+			),
+			'password' => array(
+				'required' => true,
+			)
+		));
 
 	//3. Lolos Ujian
-	if ($validation->passed()) {
-	
-		if ($user->cek_nama(Input::get('username'))) {
-			# 
-			if($user->login_user(Input::get('username'), Input::get('password'))){
-				Session::set('username', Input::get('username'));
-				header('Location: profile.php');
-			}else{
-				$errors[] = 'Login Gagal';
-			}
-		}else{
-			$errors[] = 'Username Belum Terdaftar!';
-		}
+		if ($validation->passed()) {
 
-	}else{
-		$errors = $validation->errors();
+			if ($user->cek_nama(Input::get('username'))) {
+			# 
+				if($user->login_user(Input::get('username'), Input::get('password'))){
+					Session::set('username', Input::get('username'));
+					header('Location: profile.php');
+				}else{
+					$errors[] = 'Login Gagal';
+				}
+			}else{
+				$errors[] = 'Username Belum Terdaftar!';
+			}
+
+		}else{
+			$errors = $validation->errors();
+		}
 	}
 }
 
@@ -58,6 +61,8 @@ require_once 'templates/header.php';
 
 	<label>Password</label>
 	<input type="password" name="password"><br>
+
+	<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 
 	<input type="submit" name="submit" value="Login Sekarang">
 

@@ -9,11 +9,12 @@ if ( !$user->is_loggedIn()) {
 if (Session::exists('profile')) {
 	echo Session::flash('profile');
 }
-
+$user_data = $user->get_data( Session::get('username'));
 require_once 'templates/header.php';
 ?>
 
-<h2>Hai <?php echo Session::get('username') ?> </h2>
+<h2>Profile</h2>
+<h3>Hai <?php echo $user_data['username'] ?> </h3>
 
 <?php if($user->is_admin(Session::get('username'))){ ?>
 	Fungsi Khusus admin

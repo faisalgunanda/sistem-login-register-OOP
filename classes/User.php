@@ -56,6 +56,15 @@ class User
             else return false;
     }
 
+    public function get_data($username)
+    {
+        if ($this->cek_nama($username)) {
+            return $this->_db->get_info('users', 'username', $username);
+        }else{
+            return die('Nama User Tidak Terdaftar');
+        }
+    }
+
 }
 
 
